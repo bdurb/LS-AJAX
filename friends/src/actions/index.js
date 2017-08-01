@@ -10,10 +10,10 @@ export const getFriends = () => {
     };
 };
 
-// export const postFriends = () => {
-//     const promise = axios.post('http://localhost:5000/friends');
-//     return {
-//         type: GET_FRIENDS,
-//         payload: promise
-//     };
-// };
+export const postFriends = () => {
+    const promise = axios.post('http://localhost:5000/friends');
+    return {
+        type: GET_FRIENDS,
+        payload: promise
+    };
+};
