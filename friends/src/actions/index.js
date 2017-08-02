@@ -1,6 +1,8 @@
 import axios from 'axios';
 
 export const GET_FRIENDS = 'GET_FRIENDS';
+export const NEW_FRIEND = 'NEW_FRIEND';
+
 
 export const getFriends = () => {
   const promise = axios.get('http://localhost:5000/friends');
@@ -10,10 +12,10 @@ export const getFriends = () => {
     };
 };
 
-export const postFriends = () => {
-    const promise = axios.post('http://localhost:5000/friends');
+export const postFriends = (newFriend) => {
+    const promise = axios.post('http://localhost:5000/new-friend');
     return {
-        type: GET_FRIENDS,
+        type: NEW_FRIEND,
         payload: promise
     };
 };

@@ -1,4 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { getFriends, postFriends } from '../actions';
+import { bindActionCreators } from 'redux'
+
+
+
 
 class FriendForm extends Component {
   constructor(props) {
@@ -9,39 +15,77 @@ class FriendForm extends Component {
       age: undefined,
       email: '',
     };
+    this.setField = this.setField.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
 
   }
-  handleChange(event) {
-    this.setState({
-      name: event.target.value,
-      age: event.target.value,
-      email: event.target.value,
-    });
-    // console.log(this.state);
+
+  setField (event) {
+
+       const target = event.target;
+       const value = target.value;
+       const name = target.name;
+
+       this.setState({
+         [name]: value
+       });
+
+    // this.setState({[event.target.name]: event.target.value})
   }
   handleSubmit(event) {
-    this
+    event.preventDefault();
+    this.props.postFriends({
+      name: this.state.name,
+      age: this.state.age,
+      email: this.state.email,
+    })
+
+    getFriends();
+    console.log(this.state);
   }
+
+
   render() {
     return (
       <div>
-        <form onSubmit={ this.deleteEverything }>
+        <form onChange={this.setField} onSubmit={ this.handleSubmit }>
           <div>
             <label>Name</label>
-            <input value={ this.state.name } type="text" required/>
+            <input
+              name="name"
+              value={ this.state.name }
+              // onChange={ this.handleChange }
+              type="text" required/>
           </div>
           <div>
             <label>Age</label>
-            <input value={this.state.age} type="number" required/>
+            <input value={this.state.age}
+              name="age"
+              // onChange={ this.handleChange }
+              type="number" required/>
           </div>
           <div>
             <label>Email</label>
-            <input value={this.state.email} type="text" required/>
+            <input value={this.state.email}
+              name="email"
+              // onChange={ this.handleChange }
+              type="text" required/>
           </div>
+          <button type="submit">test</button>
         </form>
       </div>
     );
   }
 }
 
-export default FriendForm;
+const mapStateToProps = (state) => {
+  return {name: state.name, age: state.age, email: state.email};
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(
+    { postFriends: postFriends,
+    },dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FriendForm);
