@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getFriends } from '../actions';
+import '../styles/FriendsList.css';
 
 class FriendsList extends Component {
   componentDidMount(props) {
@@ -10,11 +11,20 @@ class FriendsList extends Component {
   render() {
     return (
       <div>
-       <ul>
-          {this.props.friends.map((friend, i) => {
-            return <li key ={i}>{friend.name} {friend.age} {friend.email}</li>
-          })}
-        </ul>
+        <div className="ul-div">
+          <ul>
+            {this.props.friends.map((friend, i) => {
+              return (
+                <li key ={i}>
+                  <p>Name: {friend.name} | Age: {friend.age}</p>
+                  <email className="yes-yall">
+                    <a href={`mailto:` + friend.email }>{friend.email}</a>
+                  </email> 
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </div>
     )
   }
@@ -22,10 +32,5 @@ class FriendsList extends Component {
 const mapStateToProps = (state) => {
   return {friends: state.friends};
 }
-// const mapDispatchToProps = (dispatch) => {
-//   return bindActionCreators(
-//     { getFriends: getFriends,
-//     },dispatch);
-// }
 
 export default connect(mapStateToProps, { getFriends })(FriendsList);
